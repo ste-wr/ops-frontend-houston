@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+  background: #f0f0f8; /* Old browsers */
+  background: -moz-linear-gradient(-45deg,  #f0f0f8 0%, #faf7fc 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg,  #f0f0f8 0%,#faf7fc 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg,  #f0f0f8 0%,#faf7fc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f8', endColorstr='#faf7fc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.App-content {
+  margin-left: 82px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
