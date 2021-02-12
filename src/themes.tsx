@@ -19,7 +19,7 @@ export const darkTheme = {
 
 export const lightTheme = {
     name: "lightTheme",
-    backgroundColor: "#f0f0f8",
+    backgroundColor: "#F9F9FB",
     backgroundGradientMoz: "-moz-linear-gradient(-45deg,  #f0f0f8 0%, #faf7fc 100%)",
     backgroundGradientWK: "-webkit-linear-gradient(-45deg,  #f0f0f8 0%,#faf7fc 100%)",
     backgroundGradient: "linear-gradient(135deg,  #f0f0f8 0%,#faf7fc 100%)",
@@ -33,5 +33,6 @@ export const lightTheme = {
     buttonActiveBackground: "#f0f0f0",
     buttonHoverContent: "#4A4B55",
     buttonActiveContent: "#303139",
-    buttonDefaultContent: "#606166"
+    buttonDefaultContent: "#606166",
+    h1Color: "#627290"
 }
