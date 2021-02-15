@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { Routes } from './Routes'
 import { useSelector } from 'react-redux'
+import Login from '../auth/LoginLayout'
 
 import './App.scss';
 
@@ -16,6 +17,10 @@ export const GlobalStyle = createGlobalStyle`
 
 function App(){
     const theme = useSelector((state: any) => state.theme)
+    const [token, setToken] = React.useState()
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
     return (
         <ThemeProvider theme={theme}>
         <div className="App">

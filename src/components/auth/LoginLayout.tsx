@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Login = styled.div`
     margin-left: -82px;
@@ -18,8 +19,7 @@ const LoginContainer = styled.div`
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
     border-radius: 12px;
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding: 24px;
     box-shadow: 6px 6px 24px rgba(0,0,0,0.05);
 `
 
@@ -31,8 +31,7 @@ const LoginHeader = styled.h1`
 `
 
 const LoginForm = styled.form`
-    margin-left: 24px;
-    margin-right: 24px;
+    margin-bottom: 24px;
 `
 
 const LoginFormInput = styled.input`
@@ -46,6 +45,9 @@ const LoginFormInput = styled.input`
     margin-bottom: 24px;
     border-radius: 12px;
     color: #BEC3CE;
+    &:focus {
+        color: ${(props: any) => props.theme.buttonActiveContent};
+    }
 `
 
 const LoginFormSubmit = styled.input`
@@ -59,6 +61,15 @@ const LoginFormSubmit = styled.input`
     border: none;
     border-radius: 12px;
 `
+const ErrorResponseField = styled.div`
+    background-color: ${(props: any) => props.theme.errorRed};
+    border-radius: 8px;
+    min-width: 100%;
+    padding: 6px 8px;
+    color: #ff0000;
+    box-sizing: border-box;
+    text-align: center;
+`
 
 const loginUser = async (credentials) => {
     return fetch('http://localhost:3000/auth/login', {
@@ -68,21 +79,36 @@ const loginUser = async (credentials) => {
         },
         body: JSON.stringify(credentials)
     })
-    .then(data=>data.json())
+    .then(data => {
+        if(!data.ok) {
+            return data.json()
+        } else {
+            return true
+        }
+    })
 }
 
-const LoginLayout = () => {
+const LoginLayout = ({setToken}) => {
     const [username, setUserName] = React.useState()
     const [password, setPassword] = React.useState()
-    const [errorMessage, setErrorMessage] = React.useState()
+    const [errorMessage, setErrorMessage] = React.useState(null)
     const handleSubmit = async e => {
         e.preventDefault()
         const response = await loginUser({
             username,
             password
         })
-        console.log(response)
+        if(response.message) {
+            setErrorMessage(response.message)
+        } else {
+            setErrorMessage(null)
+            setToken({"token": "abc"})
+        }
     }
+    let style={
+        display: ""
+    }
+    if(!errorMessage) style.display = "none";
     return (
         <div>
             <Login className="login">
@@ -93,11 +119,15 @@ const LoginLayout = () => {
                         <LoginFormInput type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                         <LoginFormSubmit type="submit" value="Login" />
                     </LoginForm>
-                    <p>{errorMessage}</p>
+                    <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
                 </LoginContainer>
             </Login>
         </div>
     )
+}
+
+LoginLayout.propTypes = {
+    setToken: PropTypes.func.isRequired
 }
 
 export default LoginLayout
