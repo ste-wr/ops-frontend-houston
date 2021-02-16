@@ -15,7 +15,7 @@ class ProtectedRoute extends React.Component<ProtectedRouteProps> {
         return isAuthenticated ? (
             <Component />
         ) : (
-            <Redirect to={{ pathname: '/login' }} />
+            <Redirect to={{ pathname: '/' }} />
         )
     }
 }

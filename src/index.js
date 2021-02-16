@@ -1,19 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import { themeReducer } from './redux/ThemeReducer'
+import { UserContext } from './components/core/Context'
 import './index.css';
 
 import App from './components/core/App'
 
-const store = createStore(themeReducer);
-
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+      <UserContext.Provider value={{isLoggedIn: false, token: 'abc', login: () => {}, logout: () => {}, theme: {theme: 'lightTheme'}}}>
       <App/>
-    </Provider>
+      </UserContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

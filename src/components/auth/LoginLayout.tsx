@@ -2,22 +2,10 @@ import * as React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const Login = styled.div`
-    margin-left: -82px;
-`
-
 const LoginContainer = styled.div`
     background-color: ${(props: any) => props.theme.frameBackground};
     border-color: ${(props: any) => props.theme.frameBorderColor};
     width: 400px;
-    margin: 0px auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    -webkit-transform: translateY(-50%);
-    -moz-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    -o-transform: translateY(-50%);
     border-radius: 12px;
     padding: 24px;
     box-shadow: 6px 6px 24px rgba(0,0,0,0.05);
@@ -110,19 +98,15 @@ const LoginLayout = ({setToken}) => {
     }
     if(!errorMessage) style.display = "none";
     return (
-        <div>
-            <Login className="login">
-                <LoginContainer className="login-form">
-                    <LoginHeader>Login</LoginHeader>
-                    <LoginForm onSubmit={handleSubmit}>
-                        <LoginFormInput type="email" name="username" placeholder="Username" onChange={e => setUserName(e.target.value)} />
-                        <LoginFormInput type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                        <LoginFormSubmit type="submit" value="Login" />
-                    </LoginForm>
-                    <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
-                </LoginContainer>
-            </Login>
-        </div>
+        <LoginContainer className="login-form">
+            <LoginHeader>Login</LoginHeader>
+            <LoginForm onSubmit={handleSubmit}>
+                <LoginFormInput type="email" name="username" placeholder="Username" onChange={e => setUserName(e.target.value)} />
+                <LoginFormInput type="password" name="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
+                <LoginFormSubmit type="submit" value="Login" />
+            </LoginForm>
+            <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
+        </LoginContainer>
     )
 }
 

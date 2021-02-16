@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import styled, { createGlobalStyle, ThemeProvider} from 'styled-components'
+import { UserContext } from './Context'
 import { Routes } from './Routes'
-import { useSelector } from 'react-redux'
 import Login from '../auth/LoginLayout'
-
-import './App.scss';
+import Sidebar from './Sidebar'
 
 export const GlobalStyle = createGlobalStyle`
     body {
@@ -15,20 +14,26 @@ export const GlobalStyle = createGlobalStyle`
     }
 `
 
+const AppContainer = styled.div`
+    margin-left: 82px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
 function App(){
-    const theme = useSelector((state: any) => state.theme)
-    const [token, setToken] = React.useState()
-    if(!token) {
-        return <Login setToken={setToken} />
-    }
+    const userContext = React.useContext(UserContext)
+    const [loggedIn, setLoggedIn] = React.useState(null)
     return (
-        <ThemeProvider theme={theme}>
-        <div className="App">
-            <GlobalStyle/>
-            <Router>
-                <Routes />
-            </Router>
-        </div>
+        <ThemeProvider theme={userContext.theme}>
+                <AppContainer className="App">
+                    <GlobalStyle/>
+                    <Router>
+                        <Sidebar/>
+                        {loggedIn ? <Routes/> : <Login/>}
+                    </Router>
+                </AppContainer>
         </ThemeProvider>
     )
 }

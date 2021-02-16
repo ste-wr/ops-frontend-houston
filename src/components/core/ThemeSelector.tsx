@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { darkTheme, lightTheme } from '../../themes'
-import { useDispatch } from 'react-redux'
-import { applyTheme } from '../../redux/ThemeActions'
+import {UserContext} from './Context'
 
 const ThemeToggleButton = styled.div`
     float: left;
@@ -25,20 +24,24 @@ const ThemeToggleButton = styled.div`
     }
 `
 
+const ThemeToggleButtonIcon = styled(FontAwesomeIcon)`
+    width: 12px;
+    height: 12px;
+`
+
 const ThemeToggle = () => {
-    const [activeTheme, setActiveTheme] = React.useState('lightTheme')
-    const dispatch = useDispatch()
+    const userContext = React.useContext(UserContext)
+    const [activeTheme, setActiveTheme] = React.useState(userContext.theme)
     const changeTheme = (theme: any) => {
         setActiveTheme(theme.name)
-        dispatch(applyTheme(theme))
     }
     return (
         <div className="lights-out-toggle">
-            <ThemeToggleButton onClick={() => changeTheme(lightTheme)} className={`theme-toggle ${activeTheme === 'lightTheme' ? 'active' : ''}`}>
-                <FontAwesomeIcon icon={faSun} className="theme-toggle-icon"/>
+            <ThemeToggleButton onClick={() => changeTheme(lightTheme)} className={`theme-toggle ${activeTheme.theme === 'lightTheme' ? 'active' : ''}`}>
+                <ThemeToggleButtonIcon icon={faSun} className="theme-toggle-icon"/>
             </ThemeToggleButton>
-            <ThemeToggleButton onClick={() => changeTheme(darkTheme)} className={`theme-toggle ${activeTheme === 'darkTheme' ? 'active' : ''}`}>
-                <FontAwesomeIcon icon={faMoon} className="theme-toggle-icon"/>
+            <ThemeToggleButton onClick={() => changeTheme(darkTheme)} className={`theme-toggle ${activeTheme.theme === 'darkTheme' ? 'active' : ''}`}>
+                <ThemeToggleButtonIcon icon={faMoon} className="theme-toggle-icon"/>
             </ThemeToggleButton>
         </div>
     )
