@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket, faHome, faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 import ThemeSelector from './ThemeSelector'
+import { useUserState } from '../core/Context'
 
 const StyledSidebar = styled.div`
     height: 100%;
@@ -13,8 +14,8 @@ const StyledSidebar = styled.div`
     left: 0;
     border: 1px solid;
     text-align: center;
-    background-color: ${(props: any) => props.theme.frameBackground};
-    border-color: ${(props: any) => props.theme.frameBorderColor};
+    background-color: ${(props: any) => props.theme.grey_300};
+    border-color: ${(props: any) => props.theme.grey_200};
 `
 
 const StyledLogo = styled(FontAwesomeIcon)`
@@ -22,7 +23,7 @@ const StyledLogo = styled(FontAwesomeIcon)`
     height: 48px;
     margin-bottom: 16px;
     font-size: 36px;
-    color: ${(props: any) => props.theme.primaryOrange};
+    color: ${(props: any) => props.theme.orange_default};
 `
 
 const StyledNavLinkElement = styled(FontAwesomeIcon)`
@@ -32,23 +33,23 @@ const StyledNavLinkElement = styled(FontAwesomeIcon)`
 `
 
 const StyledNavLink = styled(NavLink)`
-    color: ${(props: any) => props.theme.buttonDefaultContent};
+    color: ${(props: any) => props.theme.grey_600};
     width: 48px;
     height: 48px;
     margin: 16px 0;
     border-radius: 4px;
     display: block;
     &:hover {
-        color: ${(props: any) => props.theme.buttonHoverContent};
-        background-color: ${(props: any) => props.theme.buttonHoverBackground};
+        color: ${(props: any) => props.theme.grey_800};
+        background-color: ${(props: any) => props.theme.grey_200};
     }
     &:active {
-        color: ${(props: any) => props.theme.buttonActiveContent};
-        background-color: ${(props: any) => props.theme.buttonActiveBackground};
+        color: ${(props: any) => props.theme.grey_800};
+        background-color: ${(props: any) => props.theme.grey_200};
     }
     &.active {
-        color: ${(props: any) => props.theme.buttonActiveContent};
-        background-color: ${(props: any) => props.theme.buttonActiveBackground};
+        color: ${(props: any) => props.theme.orange_default};
+        background-color: ${(props: any) => props.theme.grey_200};
     }
 `
 
@@ -59,6 +60,7 @@ const SidebarBottomFix = styled.div`
 `
 
 const Sidebar = () => {
+    const userState = useUserState()
     const isActive = path => (match) => {
         if(!match) {
             return false
@@ -68,8 +70,8 @@ const Sidebar = () => {
     return (
         <StyledSidebar className="sidebar">
             <StyledLogo icon={faRocket} className="logo" />
-                <StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>
-                <StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>
+                {userState.isAuthenticated && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
+                {userState.isAuthenticated && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
             <SidebarBottomFix>
                 <ThemeSelector />
             </SidebarBottomFix>

@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 
 const LoginContainer = styled.div`
-    background-color: ${(props: any) => props.theme.frameBackground};
-    border-color: ${(props: any) => props.theme.frameBorderColor};
+    background-color: ${(props: any) => props.theme.grey_300};
+    border-color: ${(props: any) => props.theme.grey_200};
     width: 400px;
     border-radius: 12px;
     padding: 24px;
@@ -15,7 +14,7 @@ const LoginHeader = styled.h1`
     text-align: center;
     font-size: 32;
     line-height: 149%;
-    color: ${(props: any) => props.theme.h1Color}
+    color: ${(props: any) => props.theme.grey_600}
 `
 
 const LoginForm = styled.form`
@@ -23,7 +22,7 @@ const LoginForm = styled.form`
 `
 
 const LoginFormInput = styled.input`
-    background-color: #F3F3F4;
+    background-color: ${(props: any) => props.theme.grey_200};
     border: none;
     padding: 12px;
     min-width: 100%;
@@ -32,17 +31,17 @@ const LoginFormInput = styled.input`
     line-height: 149%;
     margin-bottom: 24px;
     border-radius: 12px;
-    color: #BEC3CE;
+    color: ${(props: any) => props.theme.grey_400};
     &:focus {
-        color: ${(props: any) => props.theme.buttonActiveContent};
+        color: ${(props: any) => props.theme.grey_800};
     }
 `
 
 const LoginFormSubmit = styled.input`
-    background-color: ${(props: any) => props.theme.primaryOrange};
+    background-color: ${(props: any) => props.theme.orange_default};
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: ${(props: any) => props.theme.grey_800};
     box-sizing: border-box;
     width: 100%;
     padding: 12px;
@@ -50,11 +49,11 @@ const LoginFormSubmit = styled.input`
     border-radius: 12px;
 `
 const ErrorResponseField = styled.div`
-    background-color: ${(props: any) => props.theme.errorRed};
+    background-color: ${(props: any) => props.theme.red_default};
     border-radius: 8px;
     min-width: 100%;
     padding: 6px 8px;
-    color: #ff0000;
+    color: ${(props: any) => props.theme.red_default};
     box-sizing: border-box;
     text-align: center;
 `
@@ -76,7 +75,7 @@ const loginUser = async (credentials) => {
     })
 }
 
-const LoginLayout = ({setToken}) => {
+const LoginLayout = () => {
     const [username, setUserName] = React.useState('')
     const [password, setPassword] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState(null)
@@ -90,7 +89,7 @@ const LoginLayout = ({setToken}) => {
             setErrorMessage(response.message)
         } else {
             setErrorMessage(null)
-            setToken({"token": "abc"})
+            console.log('logging in (LOGINLAYOUT)')
         }
     }
     let style={
@@ -108,10 +107,6 @@ const LoginLayout = ({setToken}) => {
             <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
         </LoginContainer>
     )
-}
-
-LoginLayout.propTypes = {
-    setToken: PropTypes.func.isRequired
 }
 
 export default LoginLayout

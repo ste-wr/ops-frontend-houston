@@ -6,60 +6,46 @@ type UserProviderProps = {
 }
 
 type State = {
-    authenticated: boolean,
-    token: string,
-    themeName: string,
+    isDark: boolean,
+    toggle: React.Dispatch<any>
+    themeName: string
     theme: Object
-}
-
-type Action = {type: string, name: string}
-
-type Dispatch = (action: Action) => void
-
-const themeList = {
-    "lightTheme": lightTheme,
-    "darkTheme": darkTheme
+    
 }
 
 const UserStateContext = React.createContext<State|undefined>(undefined)
-const UserDispatchContext = React.createContext<Dispatch|undefined>(undefined)
 
-const themeReducer = (state: State, action: Action) => {
-    switch(action.type) {
-        case 'APPLY_THEME':
-            window.localStorage.setItem('__hstn_theme', JSON.stringify(action.name))
-            return Object.assign({theme: themeList[action.name], themeName: action.name})
-        default:
-            return state.theme
-    }
-}
 
 const UserProvider = ({children}: UserProviderProps) => {
-    const lsTheme = window.localStorage.getItem('__hstn_theme')
-    let themeName = "lightTheme"
-    let theme = {}
-    if(lsTheme !== null) {
-        theme = themeList[JSON.parse(lsTheme)]
-        themeName = JSON.parse(lsTheme)
-    } else {
-        if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            themeName = "darkTheme"
+    const [isDark, toggleDark] = React.useState(window.localStorage.getItem('__hstn_dark') ? true : false)
+    const [theme, toggleTheme] = React.useState({})
+    const [themeName, toggleThemeName] = React.useState('')
+
+    const updateTheme = (dark: boolean) => {
+        toggleDark(dark)
+        toggleTheme(dark ? darkTheme : lightTheme)
+        toggleThemeName(dark ? darkTheme.name : lightTheme.name)
+    }
+
+    React.useLayoutEffect(() => {
+        const lastTheme = window.localStorage.getItem('__hstn_dark')
+        if(JSON.parse(lastTheme) !== null) {
+            updateTheme(JSON.parse(lastTheme))
+        } else {
+            const initialState = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false
+            updateTheme(initialState)
+            window.localStorage.setItem('__hstn_dark', JSON.stringify(initialState))
         }
-        theme = themeList[themeName]
-        window.localStorage.setItem('__hstn_theme', JSON.stringify(themeName))
+    }, [isDark])
+
+    const toggle = () => {
+        updateTheme(!isDark)
+        window.localStorage.setItem('__hstn_dark', JSON.stringify(!isDark))
     }
-    const initialState = {
-        authenticated: false,
-        token: '',
-        themeName: themeName,
-        theme: theme
-    }
-    const [state, dispatch] = React.useReducer(themeReducer, initialState)
+
     return(
-        <UserStateContext.Provider value={state}>
-            <UserDispatchContext.Provider value={dispatch}>
-                {children}
-            </UserDispatchContext.Provider>
+        <UserStateContext.Provider value={{isDark, toggle, themeName, theme}}>
+            {children}
         </UserStateContext.Provider>
     )
 }
@@ -72,12 +58,4 @@ const useUserState = () => {
     return context
 }
 
-const useUserDispatch = () => {
-    const context = React.useContext(UserDispatchContext)
-    if(context === undefined) {
-        throw new Error('useUserDispatch must be used within a UserProvider')
-    }
-    return context
-}
-
-export { UserProvider, useUserState, useUserDispatch }
+export { UserProvider, useUserState }

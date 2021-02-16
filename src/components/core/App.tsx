@@ -8,9 +8,8 @@ import { useUserState } from './Context'
 
 export const GlobalStyle = createGlobalStyle`
     body {
-        background-color: ${(props: any) => props.theme.backgroundColor};
-        filter: ${(props: any) => props.theme.backgroundGradientIE};
-        color: ${(props: any) => props.theme.primaryTextColor};
+        background-color: ${(props: any) => props.theme.grey_100};
+        color: ${(props: any) => props.theme.grey_800};
     }
 `
 
@@ -23,7 +22,7 @@ const AppContainer = styled.div`
 `
 
 function App(){
-    const [loggedIn] = React.useState(null)
+    const [isLoggedIn, setLoggedIn] = React.useState(false)
     const userState = useUserState()
     return (
         <ThemeProvider theme={userState.theme}>
@@ -31,7 +30,7 @@ function App(){
                     <GlobalStyle/>
                     <Router>
                         <Sidebar/>
-                        {loggedIn ? <Routes/> : <Login/>}
+                        {isLoggedIn ? <Routes/> : <Login/>}
                     </Router>
                 </AppContainer>
         </ThemeProvider>

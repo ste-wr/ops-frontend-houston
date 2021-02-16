@@ -2,24 +2,24 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
-import { useUserDispatch, useUserState } from './Context'
+import { useUserState } from './Context'
 
 const ThemeToggleButton = styled.div`
     float: left;
     width: 24px;
     height: 24px;
     border-radius: 2px;
-    color: ${(props: any) => props.theme.buttonDefaultContent};
+    color: ${(props: any) => props.theme.grey_600};
     &:hover {
-        color: ${(props: any) => props.theme.buttonHoverContent};
-        background-color: ${(props: any) => props.theme.buttonHoverBackground};
+        color: ${(props: any) => props.theme.grey_800};
+        background-color: ${(props: any) => props.theme.grey_200};
     }
     &:active {
-        color: ${(props: any) => props.theme.buttonActiveContent};
-        background-color: ${(props: any) => props.theme.buttonActiveBackground};
+        color: ${(props: any) => props.theme.grey_800};
+        background-color: ${(props: any) => props.theme.grey_200};
     }
     &.active {
-        color: ${(props: any) => props.theme.primaryOrange};
+        color: ${(props: any) => props.theme.orange_default};
     }
 `
 
@@ -29,19 +29,16 @@ const ThemeToggleButtonIcon = styled(FontAwesomeIcon)`
 `
 
 const ThemeToggle = () => {
-    const dispatch = useUserDispatch()
     const state = useUserState()
-    const [activeTheme, setActiveTheme] = React.useState(state.themeName)
-    const changeTheme = (theme: string) => {
-        setActiveTheme(theme)
-        dispatch({type: 'APPLY_THEME', name: theme})
+    const changeTheme = () => {
+        state.toggle(null)
     }
     return (
         <div className="lights-out-toggle">
-            <ThemeToggleButton onClick={() => changeTheme('lightTheme')} className={`theme-toggle ${activeTheme === 'lightTheme' ? 'active' : ''}`}>
+            <ThemeToggleButton onClick={() => changeTheme()} className={`theme-toggle ${state.themeName === 'lightTheme' ? 'active' : ''}`}>
                 <ThemeToggleButtonIcon icon={faSun} className="theme-toggle-icon"/>
             </ThemeToggleButton>
-            <ThemeToggleButton onClick={() => changeTheme('darkTheme')} className={`theme-toggle ${activeTheme === 'darkTheme' ? 'active' : ''}`}>
+            <ThemeToggleButton onClick={() => changeTheme()} className={`theme-toggle ${state.themeName === 'darkTheme' ? 'active' : ''}`}>
                 <ThemeToggleButtonIcon icon={faMoon} className="theme-toggle-icon"/>
             </ThemeToggleButton>
         </div>
