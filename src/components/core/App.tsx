@@ -4,7 +4,6 @@ import styled, { createGlobalStyle, ThemeProvider} from 'styled-components'
 import { Routes } from './Routes'
 import Login from '../auth/LoginLayout'
 import Sidebar from './Sidebar'
-import { lightTheme } from '../../themes'
 import { useUserState } from './Context'
 
 export const GlobalStyle = createGlobalStyle`

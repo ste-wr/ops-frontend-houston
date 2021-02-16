@@ -2,8 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
-import { darkTheme, lightTheme } from '../../themes'
-import { useUserDispatch } from './Context'
+import { useUserDispatch, useUserState } from './Context'
 
 const ThemeToggleButton = styled.div`
     float: left;
@@ -30,18 +29,19 @@ const ThemeToggleButtonIcon = styled(FontAwesomeIcon)`
 `
 
 const ThemeToggle = () => {
-    const [activeTheme, setActiveTheme] = React.useState('lightTheme')
     const dispatch = useUserDispatch()
-    const changeTheme = (theme: any) => {
-        setActiveTheme(theme.name)
-        dispatch({type: 'APPLY_THEME', payload: theme})
+    const state = useUserState()
+    const [activeTheme, setActiveTheme] = React.useState(state.themeName)
+    const changeTheme = (theme: string) => {
+        setActiveTheme(theme)
+        dispatch({type: 'APPLY_THEME', name: theme})
     }
     return (
         <div className="lights-out-toggle">
-            <ThemeToggleButton onClick={() => changeTheme(lightTheme)} className={`theme-toggle ${activeTheme === 'lightTheme' ? 'active' : ''}`}>
+            <ThemeToggleButton onClick={() => changeTheme('lightTheme')} className={`theme-toggle ${activeTheme === 'lightTheme' ? 'active' : ''}`}>
                 <ThemeToggleButtonIcon icon={faSun} className="theme-toggle-icon"/>
             </ThemeToggleButton>
-            <ThemeToggleButton onClick={() => changeTheme(darkTheme)} className={`theme-toggle ${activeTheme === 'darkTheme' ? 'active' : ''}`}>
+            <ThemeToggleButton onClick={() => changeTheme('darkTheme')} className={`theme-toggle ${activeTheme === 'darkTheme' ? 'active' : ''}`}>
                 <ThemeToggleButtonIcon icon={faMoon} className="theme-toggle-icon"/>
             </ThemeToggleButton>
         </div>
