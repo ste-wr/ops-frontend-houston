@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { darkTheme, lightTheme } from '../../themes'
+import { useUserDispatch } from './Context'
 
 const ThemeToggleButton = styled.div`
     float: left;
@@ -29,9 +30,11 @@ const ThemeToggleButtonIcon = styled(FontAwesomeIcon)`
 `
 
 const ThemeToggle = () => {
-    const [activeTheme, setActiveTheme] = React.useState(null)
+    const [activeTheme, setActiveTheme] = React.useState('lightTheme')
+    const dispatch = useUserDispatch()
     const changeTheme = (theme: any) => {
         setActiveTheme(theme.name)
+        dispatch({type: 'APPLY_THEME', payload: theme})
     }
     return (
         <div className="lights-out-toggle">

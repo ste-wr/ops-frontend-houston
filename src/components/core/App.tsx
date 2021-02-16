@@ -4,7 +4,8 @@ import styled, { createGlobalStyle, ThemeProvider} from 'styled-components'
 import { Routes } from './Routes'
 import Login from '../auth/LoginLayout'
 import Sidebar from './Sidebar'
-import { lightTheme, darkTheme } from '../../themes'
+import { lightTheme } from '../../themes'
+import { useUserState } from './Context'
 
 export const GlobalStyle = createGlobalStyle`
     body {
@@ -23,9 +24,10 @@ const AppContainer = styled.div`
 `
 
 function App(){
-    const [loggedIn, setLoggedIn] = React.useState(null)
+    const [loggedIn] = React.useState(null)
+    const userState = useUserState()
     return (
-        <ThemeProvider theme={lightTheme}>
+        <ThemeProvider theme={userState.theme}>
                 <AppContainer className="App">
                     <GlobalStyle/>
                     <Router>

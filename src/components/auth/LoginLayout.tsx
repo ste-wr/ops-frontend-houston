@@ -77,8 +77,8 @@ const loginUser = async (credentials) => {
 }
 
 const LoginLayout = ({setToken}) => {
-    const [username, setUserName] = React.useState()
-    const [password, setPassword] = React.useState()
+    const [username, setUserName] = React.useState('')
+    const [password, setPassword] = React.useState('')
     const [errorMessage, setErrorMessage] = React.useState(null)
     const handleSubmit = async e => {
         e.preventDefault()
