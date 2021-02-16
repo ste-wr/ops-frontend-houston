@@ -1,9 +1,3 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
-export const UserContext = createContext({
-    isLoggedIn: false,
-    token: null,
-    login: () => {},
-    logout: () => {},
-    theme: {theme: 'lightTheme'}
-})
+export const UserContext = createContext()

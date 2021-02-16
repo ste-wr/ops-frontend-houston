@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled, { createGlobalStyle, ThemeProvider} from 'styled-components'
-import { UserContext } from './Context'
 import { Routes } from './Routes'
 import Login from '../auth/LoginLayout'
 import Sidebar from './Sidebar'
+import { lightTheme, darkTheme } from '../../themes'
 
 export const GlobalStyle = createGlobalStyle`
     body {
@@ -23,10 +23,9 @@ const AppContainer = styled.div`
 `
 
 function App(){
-    const userContext = React.useContext(UserContext)
     const [loggedIn, setLoggedIn] = React.useState(null)
     return (
-        <ThemeProvider theme={userContext.theme}>
+        <ThemeProvider theme={lightTheme}>
                 <AppContainer className="App">
                     <GlobalStyle/>
                     <Router>

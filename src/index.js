@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { UserContext } from './components/core/Context'
+import { lightTheme } from './themes'
 import './index.css';
 
 import App from './components/core/App'
 
+
 ReactDOM.render(
   <React.StrictMode>
-      <UserContext.Provider value={{isLoggedIn: false, token: 'abc', login: () => {}, logout: () => {}, theme: {theme: 'lightTheme'}}}>
+      <UserContext.Provider>
       <App/>
       </UserContext.Provider>
   </React.StrictMode>,

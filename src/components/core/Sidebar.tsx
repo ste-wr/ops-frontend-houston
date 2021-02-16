@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRocket, faHome, faNetworkWired } from '@fortawesome/free-solid-svg-icons'
 import ThemeSelector from './ThemeSelector'
-import { UserContext } from '../core/Context'
 
 const StyledSidebar = styled.div`
     height: 100%;
@@ -66,12 +65,11 @@ const Sidebar = () => {
         }
         return match.url === path
     }
-    const authContext = React.useContext(UserContext);
     return (
         <StyledSidebar className="sidebar">
             <StyledLogo icon={faRocket} className="logo" />
-                {authContext.isLoggedIn && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
-                {authContext.isLoggedIn && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
+                <StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>
+                <StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>
             <SidebarBottomFix>
                 <ThemeSelector />
             </SidebarBottomFix>
