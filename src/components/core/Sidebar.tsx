@@ -8,7 +8,7 @@ import { useUserState } from '../core/Context'
 
 const StyledSidebar = styled.div`
     height: 100%;
-    padding: 16px;
+    padding: 24px 16px;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,10 +19,12 @@ const StyledSidebar = styled.div`
 `
 
 const StyledLogo = styled(FontAwesomeIcon)`
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     margin-bottom: 16px;
-    font-size: 36px;
+    margin-left: 8px;
+    margin-right: 8px;
+    font-size: 32px;
     color: ${(props: any) => props.theme.orange_default};
 `
 
@@ -55,8 +57,8 @@ const StyledNavLink = styled(NavLink)`
 
 const SidebarBottomFix = styled.div`
     position: fixed;
+    margin-bottom: 24px;
     bottom: 0;
-    margin-bottom: 16px;
 `
 
 const Sidebar = () => {
@@ -70,8 +72,8 @@ const Sidebar = () => {
     return (
         <StyledSidebar className="sidebar">
             <StyledLogo icon={faRocket} className="logo" />
-                {userState.isAuthenticated && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
-                {userState.isAuthenticated && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
+            {userState.isAuthenticated && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
+            {userState.isAuthenticated && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
             <SidebarBottomFix>
                 <ThemeSelector />
             </SidebarBottomFix>

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import GoogleLogin from 'react-google-login'
 
 const LoginContainer = styled.div`
     background-color: ${(props: any) => props.theme.grey_300};
@@ -58,8 +59,28 @@ const ErrorResponseField = styled.div`
     text-align: center;
 `
 
+const LoginSeparator = styled.div`
+    min-width: 100%;
+    height: 16px;
+    text-align: center;
+    color: ${(props: any) => props.theme.grey_500};
+    margin-bottom: 24px;
+`
+
+const LoginWithGoogleButton = styled.button`
+    background-color: ${(props: any) => props.theme.orange_default};
+    font-size: 16px;
+    font-weight: 600;
+    color: ${(props: any) => props.theme.grey_800};
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+`
+
 const loginUser = async (credentials) => {
-    return fetch('http://localhost:3000/auth/login', {
+    return fetch('/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -70,9 +91,26 @@ const loginUser = async (credentials) => {
         if(!data.ok) {
             return data.json()
         } else {
+            // set an auth token in cookies
+            // set isAuthenticated to true
             return true
         }
     })
+}
+
+const handleGoogleSuccess = async(googleData) => {
+    console.log(googleData)
+    const res = await fetch('/auth/google', {
+        method: 'POST',
+        body: JSON.stringify(googleData),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await res.json()
+    console.log(data)
+    return true
 }
 
 const LoginLayout = () => {
@@ -90,7 +128,11 @@ const LoginLayout = () => {
         } else {
             setErrorMessage(null)
             console.log('logging in (LOGINLAYOUT)')
+            console.log(response)
         }
+    }
+    const handleGoogleFailure = (error) => {
+        console.log(error)
     }
     let style={
         display: ""
@@ -105,6 +147,15 @@ const LoginLayout = () => {
                 <LoginFormSubmit type="submit" value="Login" />
             </LoginForm>
             <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
+            <LoginSeparator>or</LoginSeparator>
+            <GoogleLogin
+                responseType="code"
+                clientId="605997161745-vn13em4krj1mq7pkdjuoom2kg1ritn72.apps.googleusercontent.com"
+                buttonText="Continue with Google"
+                onSuccess={handleGoogleSuccess}
+                onFailure={handleGoogleFailure}
+                cookiePolicy={'single_host_origin'}
+            />
         </LoginContainer>
     )
 }
