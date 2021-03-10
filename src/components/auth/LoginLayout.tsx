@@ -67,18 +67,6 @@ const LoginSeparator = styled.div`
     margin-bottom: 24px;
 `
 
-const LoginWithGoogleButton = styled.button`
-    background-color: ${(props: any) => props.theme.orange_default};
-    font-size: 16px;
-    font-weight: 600;
-    color: ${(props: any) => props.theme.grey_800};
-    box-sizing: border-box;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-`
-
 const loginUser = async (credentials) => {
     return fetch('/auth/login', {
         method: 'POST',
@@ -99,7 +87,6 @@ const loginUser = async (credentials) => {
 }
 
 const handleGoogleSuccess = async(googleData) => {
-    console.log(googleData)
     const res = await fetch('/auth/google', {
         method: 'POST',
         body: JSON.stringify(googleData),
