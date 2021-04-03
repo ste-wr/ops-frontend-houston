@@ -22,7 +22,7 @@ const AppContainer = styled.div`
 `
 
 function App(){
-    const [isLoggedIn, setLoggedIn] = React.useState(false)
+    const [isLoggedIn] = React.useState(false)
     const userState = useUserState()
     return (
         <ThemeProvider theme={userState.theme}>
