@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components'
+import * as Cookies from 'js-cookie'
 
 const LoginContainer = styled.div`
     background-color: ${(props: any) => props.theme.grey_300};
@@ -17,21 +18,15 @@ const LoginHeader = styled.h1`
     color: ${(props: any) => props.theme.grey_600}
 `
 
-const LoginForm = styled.form`
-    margin-bottom: 24px;
-`
-
-const LoginFormSubmit = styled.input`
-    background-color: ${(props: any) => props.theme.orange_default};
+const GoogleButton = styled.div`
+    max-height: 48px;
     font-size: 16px;
-    font-weight: 600;
-    color: ${(props: any) => props.theme.grey_800};
-    box-sizing: border-box;
-    width: 100%;
+    background-color: ${(props: any) => props.theme.grey_800};
+    color: ${(props: any) => props.theme.grey_100};
     padding: 12px;
-    border: none;
     border-radius: 12px;
 `
+
 const ErrorResponseField = styled.div`
     background-color: ${(props: any) => props.theme.red_default};
     border-radius: 8px;
@@ -42,24 +37,19 @@ const ErrorResponseField = styled.div`
     text-align: center;
 `
 
-const fetchAuthorizeURL: any = async() => {
-    const res = await fetch('/auth/login', {
-        method: 'GET'
-    })
-    return res
-}
-
 const LoginLayout = () => {
     const [errorMessage, setErrorMessage] = React.useState(null)
-    const handleAuthorize = async e => {
+    const handleOAuth = async e => {
         e.preventDefault()
-        let authPopup = window.open("about:blank", "Google Authentication", "width=630,height=685")
-        await fetchAuthorizeURL().then(data => {
+        Cookies.set('__hstn_auth_origin', window.location.href)
+        await fetch("/auth/login", {
+            method: 'GET'
+        }).then(data => {
             if (!data.ok) {
                 setErrorMessage('Failed to get Google Auth URL')
             } else {
                 data.text().then(text => {
-                    authPopup.location.href = text
+                    window.location.href = text
                 })
             }
         })
@@ -71,9 +61,7 @@ const LoginLayout = () => {
     return (
         <LoginContainer className="login-form">
             <LoginHeader>Login</LoginHeader>
-            <LoginForm onSubmit={handleAuthorize}>
-                <LoginFormSubmit type="submit" value="Continue with Google" />
-            </LoginForm>
+            <GoogleButton onClick={handleOAuth}>Continue with Google</GoogleButton>
             <ErrorResponseField style={style}>{errorMessage}</ErrorResponseField>
         </LoginContainer>
     )

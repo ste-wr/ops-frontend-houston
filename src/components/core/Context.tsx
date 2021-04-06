@@ -6,8 +6,10 @@ type UserProviderProps = {
 }
 
 type State = {
-    isDark: boolean,
+    isLoggedIn: boolean
+    isDark: boolean
     toggle: React.Dispatch<any>
+    setLoggedIn: React.Dispatch<any>
     themeName: string
     theme: Object
     
@@ -20,6 +22,7 @@ const UserProvider = ({children}: UserProviderProps) => {
     const [isDark, toggleDark] = React.useState(window.localStorage.getItem('__hstn_dark') ? true : false)
     const [theme, toggleTheme] = React.useState({})
     const [themeName, toggleThemeName] = React.useState('')
+    const [isLoggedIn, toggleIsLoggedIn] = React.useState(false)
 
     const updateTheme = (dark: boolean) => {
         toggleDark(dark)
@@ -43,8 +46,12 @@ const UserProvider = ({children}: UserProviderProps) => {
         window.localStorage.setItem('__hstn_dark', JSON.stringify(!isDark))
     }
 
+    const setLoggedIn = (state) => {
+        toggleIsLoggedIn(state)
+    }
+
     return(
-        <UserStateContext.Provider value={{isDark, toggle, themeName, theme}}>
+        <UserStateContext.Provider value={{isLoggedIn, isDark, toggle, setLoggedIn, themeName, theme}}>
             {children}
         </UserStateContext.Provider>
     )

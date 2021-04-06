@@ -72,8 +72,8 @@ const Sidebar = () => {
     return (
         <StyledSidebar className="sidebar">
             <StyledLogo icon={faRocket} className="logo" />
-            {userState.isAuthenticated && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
-            {userState.isAuthenticated && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
+            {userState.isLoggedIn && (<StyledNavLink to="/" isActive={isActive('/')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faHome} className='icon'/></StyledNavLink>)}
+            {userState.isLoggedIn && (<StyledNavLink to="/topology" isActive={isActive('/topology')} className="sidebar-link" activeClassName="active"><StyledNavLinkElement icon={faNetworkWired} className='icon'/></StyledNavLink>)}
             <SidebarBottomFix>
                 <ThemeSelector />
             </SidebarBottomFix>
