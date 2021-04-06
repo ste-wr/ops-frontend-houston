@@ -27,7 +27,7 @@ function App(){
     const userState = useUserState()
     React.useEffect(() => {
         if(Cookies.get('__hstn_access_token')) {
-            const token = jwt(Cookies.get('__hstn_access_token'))
+            const token: any = jwt(Cookies.get('__hstn_access_token'))
             if (Date.now() >= token.exp * 1000) {
                 userState.setLoggedIn(false)
             } else {
