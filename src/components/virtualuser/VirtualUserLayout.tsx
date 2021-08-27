@@ -11,7 +11,7 @@ const fetchBase = async (token: string) => {
     .then(response => response.json())
 }
 
-const DashboardLayout = () => {
+const VirtualUserLayout = () => {
     const userState = useUserState()
     React.useEffect(() => {
         async function getBase() {
@@ -28,9 +28,9 @@ const DashboardLayout = () => {
     }, [userState.token])
     return(
         <div>
-            <p>Dashboard</p>
+            <p>Virtual User Manager</p>
         </div>
     )
 }
 
-export default DashboardLayout
+export default VirtualUserLayout

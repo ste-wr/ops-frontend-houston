@@ -5,7 +5,6 @@ import { Routes } from './Routes'
 import Login from '../auth/LoginLayout'
 import Sidebar from './Sidebar'
 import { useUserState } from './Context'
-import * as Cookies from 'js-cookie'
 import jwt from 'jwt-decode'
 
 export const GlobalStyle = createGlobalStyle`
@@ -26,15 +25,17 @@ const AppContainer = styled.div`
 function App(){
     const userState = useUserState()
     React.useEffect(() => {
-        if(Cookies.get('__hstn_access_token')) {
-            const token: any = jwt(Cookies.get('__hstn_access_token'))
+        if(userState.token) {
+            const token: any = jwt(userState.token)
             if (Date.now() >= token.exp * 1000) {
                 userState.setLoggedIn(false)
+                userState.unsetToken(false)
             } else {
                 userState.setLoggedIn(true)
             }
         } else {
             userState.setLoggedIn(false)
+            userState.unsetToken(false)
         }
     },[userState])
     return (
@@ -43,7 +44,7 @@ function App(){
                     <GlobalStyle/>
                     <Router>
                         <Sidebar/>
-                        {userState.isLoggedIn ? <Routes/> : <Login/>}
+                        {userState.token ? <Routes/> : <Login setToken={userState.saveToken}/>}
                     </Router>
                 </AppContainer>
         </ThemeProvider>

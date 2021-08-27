@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Redirect } from 'react-router-dom'
 import { useUserState } from '../core/Context'
 
-const ProtectedRoute = ({ component: Component, user, ...rest }) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
     const userState = useUserState()
     return (
       <Component {...rest} render={

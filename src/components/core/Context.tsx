@@ -11,7 +11,10 @@ type State = {
     toggle: React.Dispatch<any>
     setLoggedIn: React.Dispatch<any>
     themeName: string
-    theme: Object
+    theme: Object,
+    token: string,
+    saveToken: React.Dispatch<any>,
+    unsetToken: React.Dispatch<any>
     
 }
 
@@ -50,8 +53,30 @@ const UserProvider = ({children}: UserProviderProps) => {
         toggleIsLoggedIn(state)
     }
 
+    const unsetToken = () => {
+        window.localStorage.removeItem('token')
+        setToken(null)
+    }
+
+    const getToken = () => {
+        const tokenString = localStorage.getItem('token')
+        const userToken = JSON.parse(tokenString)
+        return userToken?.jwt
+    }
+    const [token, setToken] = React.useState(getToken())
+
+    const saveToken = userToken => {
+        if(userToken) {
+            localStorage.setItem('token', JSON.stringify(userToken))
+            setToken(userToken.jwt)
+        } else {
+            localStorage.removeItem('token')
+            setToken(null)
+        }
+    }
+
     return(
-        <UserStateContext.Provider value={{isLoggedIn, isDark, toggle, setLoggedIn, themeName, theme}}>
+        <UserStateContext.Provider value={{isLoggedIn, isDark, toggle, setLoggedIn, themeName, theme, token, saveToken, unsetToken}}>
             {children}
         </UserStateContext.Provider>
     )
